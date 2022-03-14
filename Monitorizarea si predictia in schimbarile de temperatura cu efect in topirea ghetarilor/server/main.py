@@ -1,16 +1,17 @@
-# This is a sample Python script.
+import numpy as np
+import pandas as pd
+import csv
+from matplotlib import pyplot as plt
+import chardet
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+filename = "Environment_Temperature_change_E_All_Data_NOFLAG.csv"
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    import chardet
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # with open(filename, 'rb') as rawdata:
+    #     result = chardet.detect(rawdata.read(100000))
+    # print(result)
+    # #
+    dataset = pd.read_csv(filename, encoding='Windows-1252')
+    print(dataset.head())
