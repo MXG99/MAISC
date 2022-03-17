@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 import csv
 from matplotlib import pyplot as plt
-import chardet
+
+from preprocess_and_plots import plot, preprocess
 
 filename = "Environment_Temperature_change_E_All_Data_NOFLAG.csv"
 
@@ -15,3 +16,6 @@ if __name__ == '__main__':
     print(romaniaData.head())
     print(romaniaData.shape)
 
+    romanianDataPreprocessed = preprocess(romaniaData)
+    plot(romanianDataPreprocessed)
+    
