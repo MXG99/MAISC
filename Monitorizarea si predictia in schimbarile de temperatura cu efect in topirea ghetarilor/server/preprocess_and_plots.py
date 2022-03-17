@@ -21,3 +21,16 @@ def plot(df: DataFrame):
     plt.legend()
     plt.title('temp change in Romania')
     plt.show()
+
+def plotByMonth(df: DataFrame, month: str):
+    temp_df = df[df["Months"] == month]
+    plt.figure(figsize=(15,10))
+    plt.scatter(temp_df['Year'].loc[df.Element=='Temperature change'],temp_df['Temperature'].loc[temp_df.Element=='Temperature change'])
+    plt.plot(temp_df.loc[temp_df.Element=='Temperature change'].groupby(['Year']).mean(),'r',label='Average')
+    plt.axhline(y=0.0, color='b', linestyle='-')
+    plt.xlabel('Year')
+    plt.xticks(np.linspace(0,58,20),rotation=45)
+    plt.ylabel('Temperature change')
+    plt.legend()
+    plt.title('temp change in Romania')
+    plt.show()
