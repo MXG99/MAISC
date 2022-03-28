@@ -10,6 +10,7 @@ def preprocess(df: DataFrame) -> DataFrame:
     Tr_df['Year']=Tr_df['Year'].str[1:].astype('str')
     return Tr_df[Tr_df["Element"]=="Temperature change"]
 
+
 def plot(df: DataFrame):
     plt.figure(figsize=(15,10))
     plt.scatter(df['Year'].loc[df.Element=='Temperature change'],df['Temperature'].loc[df.Element=='Temperature change'])
