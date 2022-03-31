@@ -5,7 +5,11 @@ from matplotlib import pyplot as plt
 
 from preprocess_and_plots import plot, plotByMonth, preprocess
 
-filename = "C:\\Users\\RADU\\Desktop\\MAISC\\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\\server\\Environment_Temperature_change_E_All_Data_NOFLAG.csv"
+pd.set_option('display.max_rows', 500)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 1000)
+
+filename = "Environment_Temperature_change_E_All_Data_NOFLAG.csv"
 
 if __name__ == '__main__':
     dataset = pd.read_csv(filename, encoding='Windows-1252')
