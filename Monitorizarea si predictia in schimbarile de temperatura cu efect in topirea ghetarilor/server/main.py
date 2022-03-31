@@ -4,6 +4,7 @@ import csv
 from matplotlib import pyplot as plt
 
 from preprocess_and_plots import *
+from model import *
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
@@ -31,3 +32,8 @@ if __name__ == '__main__':
 
     # processedData.to_csv('ProcessedData.csv')
     # romanianDataPreprocessed.to_csv('RomaniaData.csv')
+
+    # X = romanianDataPreprocessed["Months", "Year"]
+    # Y = romanianDataPreprocessed["Temperature"]
+    romanianDataPreprocessed.to_csv('RomaniaDataProcessed.csv')
+    # split_data(X, Y)

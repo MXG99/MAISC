@@ -7,6 +7,8 @@ import numpy as np
 
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
           'November', 'December']
+monthsd = {'January':1, 'February':2, 'March':3, 'April':4, 'May':5, 'June':6, 'July':7, 'August':8, 'September':9, 'October':10,
+          'November':11, 'December':12}
 
 
 def preprocess(df: DataFrame) -> DataFrame:
@@ -19,9 +21,10 @@ def preprocess(df: DataFrame) -> DataFrame:
     #df=df.loc[df.Months.isin(['January', 'February', 'March', 'April', 'May', 'June', 'July','August', 'September', 'October', 'November', 'December'])]
     Tr_df=df.melt(id_vars=['Area','Months','Element'],var_name='Year', value_name='Temperature')
     Tr_df['Year']=Tr_df['Year'].str[1:].astype('str')
+    Tr_df = Tr_df.replace(monthsd)
     for i in range(Tr_df.shape[0]):
-        Tr_df.loc[i, 'Date'] = datetime(int(Tr_df.loc[i, 'Year']), months.index(Tr_df.loc[i, 'Months']) + 1, 1)
-        Tr_df.loc[i, 'DateInt'] = int(Tr_df.loc[i, 'Year'])*100 + int(months.index(Tr_df.loc[i, 'Months']) + 1)
+        Tr_df.loc[i, 'Date'] = datetime(int(Tr_df.loc[i, 'Year']), Tr_df.loc[i, 'Months'], 1)
+        Tr_df.loc[i, 'DateInt'] = int(Tr_df.loc[i, 'Year'])*100 + int(Tr_df.loc[i, 'Months'])
     return Tr_df[Tr_df["Element"]=="Temperature change"]
 
 
@@ -98,3 +101,4 @@ def plot_years(df: DataFrame):
     plt.yticks(np.arange(min(df["Temperature"]), max(df["Temperature"])+1, 1.0), fontsize=20)
     plt.tight_layout()
     plt.show()
+
