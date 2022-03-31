@@ -1,3 +1,4 @@
+from typing import Optional
 from pandas import DataFrame
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,7 +11,7 @@ def preprocess(df: DataFrame) -> DataFrame:
     Tr_df['Year']=Tr_df['Year'].str[1:].astype('str')
     return Tr_df[Tr_df["Element"]=="Temperature change"]
 
-def plot(df: DataFrame):
+def plot(df: DataFrame, place: str = 'Romania'):
     plt.figure(figsize=(15,10))
     plt.scatter(df['Year'].loc[df.Element=='Temperature change'],df['Temperature'].loc[df.Element=='Temperature change'])
     plt.plot(df.loc[df.Element=='Temperature change'].groupby(['Year']).mean(),'r',label='Average')
@@ -19,10 +20,13 @@ def plot(df: DataFrame):
     plt.xticks(np.linspace(0,58,20),rotation=45)
     plt.ylabel('Temperature change')
     plt.legend()
-    plt.title('temp change in Romania')
+    plt.title(f'temp change in {place}')
     plt.show()
 
-def plotByMonth(df: DataFrame, month: str):
+def plotByMonth(df: DataFrame, month: Optional[str] = None):
+    if month is None:
+        plot(df)
+        return
     temp_df = df[df["Months"] == month]
     plt.figure(figsize=(15,10))
     plt.scatter(temp_df['Year'].loc[df.Element=='Temperature change'],temp_df['Temperature'].loc[temp_df.Element=='Temperature change'])
@@ -32,5 +36,5 @@ def plotByMonth(df: DataFrame, month: str):
     plt.xticks(np.linspace(0,58,20),rotation=45)
     plt.ylabel('Temperature change')
     plt.legend()
-    plt.title('temp change in Romania')
+    plt.title(f'temp change in Romania')
     plt.show()
