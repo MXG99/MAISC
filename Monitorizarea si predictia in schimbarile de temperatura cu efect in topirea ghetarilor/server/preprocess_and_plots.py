@@ -56,8 +56,9 @@ def plotByMonth(df: DataFrame, month):
     plt.title('temp change in Romania')
     plt.show()
 
+
 def lineOfRegression():
-    data = pd.read_csv('RomaniaData.csv', header=None)
+    data = pd.read_csv('../datasets/RomaniaData.csv')
     y = np.array(data.iloc[:, :-1].values)
     y = np.array([a[0] for a in y])
     arr = np.array(data.iloc[:, -1].values)
@@ -88,23 +89,24 @@ def lineOfRegression():
     plt.title("Line of Regression")
     plt.show()
 
+
 def plotAllMonths(df: DataFrame):
     colors = ['red', 'plum', 'royalblue', 'slateblue', 'magenta', 'maroon',
               'dodgerblue', 'orange', 'forestgreen', 'lime', 'peru', 'teal']
-    plt.figure(figsize=(25, 20))
+    # plt.figure(figsize=(25, 20))
     plt.axhline(y=0.0, color='b', linestyle='-')
     for i in range(12):
-        temp_df = df[df["Months"] == months[i]]
+        temp_df = df[df["Months"] == i+1]
         plt.scatter(temp_df['Year'].loc[df.Element == 'Temperature change'],
                     temp_df['Temperature'].loc[temp_df.Element == 'Temperature change'])
-        plt.plot(temp_df.loc[temp_df.Element == 'Temperature change'].groupby(['Year']).mean(), colors[i],
-                 label='Average')
-    plt.tight_layout()
+    plt.plot(df.loc[df.Element == 'Temperature change'].groupby(['Year']).mean()['Temperature'],
+            label='Average')
     plt.xlabel('Year')
     plt.xticks(np.linspace(0, 58, 20), rotation=45)
     plt.ylabel('Temperature change')
     plt.legend(months)
     plt.title('temp change in Romania')
+    plt.tight_layout()
     plt.show()
 
 

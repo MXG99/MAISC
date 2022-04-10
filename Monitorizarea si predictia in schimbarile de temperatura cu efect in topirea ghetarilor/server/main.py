@@ -24,6 +24,11 @@ if __name__ == '__main__':
     romanianDataPreprocessed = preprocess(romaniaData)
     print(romanianDataPreprocessed.head())
 
+    lineOfRegression()
+    # plot_years(romanianDataPreprocessed)
+    # plot_overtime(romanianDataPreprocessed)
+    # plotAllMonths(romanianDataPreprocessed)
+
     # plot_years(romanianDataPreprocessed)
     # plotByMonth(romanianDataPreprocessed, 'December')
 
@@ -35,5 +40,17 @@ if __name__ == '__main__':
 
     # X = romanianDataPreprocessed["Months", "Year"]
     # Y = romanianDataPreprocessed["Temperature"]
-    romanianDataPreprocessed.to_csv('../datasets/RomaniaDataProcessed.csv')
     # split_data(X, Y)
+
+    romania_dataset = pd.read_csv("../datasets/RomaniaData.csv")
+    bucuresti_dataset = pd.read_csv("../datasets/Bucuresti.csv")
+
+    header = ["t_chg", "date", "tavg", "tmin", "tmax"]
+    with open('../datasets/RomaniaDataV3.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        for row1, row2 in zip(romania_dataset.itertuples(), bucuresti_dataset.itertuples()):
+            date = datetime.strptime(row1.date, '%d/%m/%Y').date()
+            list = [round(row1.t_chg, 3), date, int(row2.tavg + round(row1.t_chg, 3)), row2.tmin, row2.tmax]
+            new_row = [str(i) for i in list]
+            writer.writerow(new_row)

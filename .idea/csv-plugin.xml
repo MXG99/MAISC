@@ -38,6 +38,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\datasets\RomaniaDataV3.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\server\Environment_Temperature_change_E_All_Data_NOFLAG.csv">
           <value>
             <Attribute>
