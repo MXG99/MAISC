@@ -139,21 +139,24 @@ def plot_years(df: DataFrame):
 
 def split_dataset(filename):
     dataset = pd.read_csv(filename)
-    newdata = DataFrame()
-    # newdata = DataFrame(dataset, columns=["year", "tavg"])
     for i in range (1, 13):
-        if(i < 10):
+        newdata = DataFrame()
+        if i < 10:
             newdata["year"] = dataset[dataset['date'].str.contains("-0"+str(i)+"-")]['date']
         else:
             newdata["year"] = dataset[dataset['date'].str.contains("-"+str(i)+"-")]['date']
-
+        t_avg_list = []
         for row in newdata["year"]:
-            print(row)
-
-
-        newdata['tavg'] = dataset['tavg'][dataset["date"] == newdata["year"]]["tavg"]
+            try:
+                year = row
+                t_avg = dataset[dataset["date"] == year]["tavg"].array[0]
+                t_avg_list.append(t_avg)
+            except IndexError:
+                pass
+        newdata['tavg'] = t_avg_list
         newdata['year'] = newdata["year"].str.split("-", 1, expand=True)[0]
-        #newdata = DataFrame(newdata, columns=["year","tavg"])
+        newdata = newdata.reset_index()
+        newdata.drop(["index"], axis=1, inplace=True)
         newdata.to_csv("../datasets/month_" +str(i))
 
 
