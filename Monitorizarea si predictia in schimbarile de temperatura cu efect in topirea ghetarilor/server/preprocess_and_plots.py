@@ -136,3 +136,24 @@ def plot_years(df: DataFrame):
     plt.tight_layout()
     plt.show()
 
+
+def split_dataset(filename):
+    dataset = pd.read_csv(filename)
+    newdata = DataFrame()
+    # newdata = DataFrame(dataset, columns=["year", "tavg"])
+    for i in range (1, 13):
+        if(i < 10):
+            newdata["year"] = dataset[dataset['date'].str.contains("-0"+str(i)+"-")]['date']
+        else:
+            newdata["year"] = dataset[dataset['date'].str.contains("-"+str(i)+"-")]['date']
+
+        for row in newdata["year"]:
+            print(row)
+
+
+        newdata['tavg'] = dataset['tavg'][dataset["date"] == newdata["year"]]["tavg"]
+        newdata['year'] = newdata["year"].str.split("-", 1, expand=True)[0]
+        #newdata = DataFrame(newdata, columns=["year","tavg"])
+        newdata.to_csv("../datasets/month_" +str(i))
+
+
