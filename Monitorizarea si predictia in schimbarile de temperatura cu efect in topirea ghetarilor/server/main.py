@@ -13,33 +13,14 @@ pd.set_option('display.width', 1000)
 filename = "../datasets/Environment_Temperature_change_E_All_Data_NOFLAG.csv"
 
 if __name__ == '__main__':
-    dataset = pd.read_csv(filename, encoding='Windows-1252')
+    #dataset = pd.read_csv(filename, encoding='Windows-1252')
     # print(dataset.head())
     # print(dataset.shape)
 
-    romaniaData = dataset[dataset["Area"] == "Romania"]
+    #romaniaData = dataset[dataset["Area"] == "Romania"]
     # print(romaniaData.head())
     # print(romaniaData.shape)
 
-    # romanianDataPreprocessed = preprocess(romaniaData)
-    # print(romanianDataPreprocessed.head())
-
-    lineOfRegression()
-    # plot_years(romanianDataPreprocessed)
-    # plot_overtime(romanianDataPreprocessed)
-    # plotAllMonths(romanianDataPreprocessed)
-
-    # plot_years(romanianDataPreprocessed)
-    # plotByMonth(romanianDataPreprocessed, 'December')
-
-    # processedData = preprocess(dataset)
-    # print(processedData.head())
-
-    # processedData.to_csv('ProcessedData.csv')
-    # romanianDataPreprocessed.to_csv('../datasets/RomaniaData.csv')
-
-    # X = romanianDataPreprocessed["Months", "Year"]
-    # Y = romanianDataPreprocessed["Temperature"]
     romaniaDataset = pd.read_csv("../datasets/RomaniaDataV2.csv")
     X = pd.DataFrame()
     X = romaniaDataset["date"].str.split("-", 1, expand=True)[0]
@@ -55,3 +36,7 @@ if __name__ == '__main__':
         print(row)
         print("--")
         t_avg = dataset[dataset["date"] == year]["tavg"]
+    # split_data(X, Y)
+
+    split_dataset("../datasets/RomaniaDataV2.csv")
+
