@@ -4,6 +4,16 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
 
+def read_data_per_month(filename, month):
+    dataset = pd.read_csv("filename" + "_" + month)
+
+
+def split_label_outcome(dataset: pd.DataFrame, labelColumnName, outcomeColumnName):
+    X = dataset[labelColumnName]
+    Y = dataset[outcomeColumnName]
+    return X, Y
+
+
 def split_data(X: pd.DataFrame, Y: pd.DataFrame):
 
     X_train, X_rem, y_train, y_rem = train_test_split(X, Y, train_size=4 / 5, random_state=42)
@@ -15,6 +25,9 @@ def split_data(X: pd.DataFrame, Y: pd.DataFrame):
 # sets: X_train, y_train, X_test, y_test, X_valid, Y_valid
 def linearReg(sets: []):
     X_train, y_train, X_test, y_test, X_valid, Y_valid = [a for a in sets]
-    print(X_train)
-    print(y_train)
-    # reg = LinearRegression().fit(X, y)
+    reg = LinearRegression()
+    X_train_array = np.array(X_train).reshape(-1, 1)
+    reg.fit(X_train_array, y_train)
+    print(reg.intercept_)
+    print(reg.coef_)
+    # lstm

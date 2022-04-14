@@ -21,8 +21,8 @@ if __name__ == '__main__':
     # print(romaniaData.head())
     # print(romaniaData.shape)
 
-    romanianDataPreprocessed = preprocess(romaniaData)
-    print(romanianDataPreprocessed.head())
+    # romanianDataPreprocessed = preprocess(romaniaData)
+    # print(romanianDataPreprocessed.head())
 
     lineOfRegression()
     # plot_years(romanianDataPreprocessed)
@@ -40,17 +40,18 @@ if __name__ == '__main__':
 
     # X = romanianDataPreprocessed["Months", "Year"]
     # Y = romanianDataPreprocessed["Temperature"]
-    # split_data(X, Y)
+    romaniaDataset = pd.read_csv("../datasets/RomaniaDataV2.csv")
+    X = pd.DataFrame()
+    X = romaniaDataset["date"].str.split("-", 1, expand=True)[0]
+    Y = romaniaDataset["tavg"]
+    X_train, y_train, X_test, y_test, X_valid, y_valid = split_data(X, Y)
 
-    romania_dataset = pd.read_csv("../datasets/RomaniaData.csv")
-    bucuresti_dataset = pd.read_csv("../datasets/Bucuresti.csv")
+    sets = [X_train, y_train, X_test, y_test, X_valid, y_valid]
 
-    header = ["t_chg", "date", "tavg", "tmin", "tmax"]
-    with open('../datasets/RomaniaDataV3.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(header)
-        for row1, row2 in zip(romania_dataset.itertuples(), bucuresti_dataset.itertuples()):
-            date = datetime.strptime(row1.date, '%d/%m/%Y').date()
-            list = [round(row1.t_chg, 3), date, int(row2.tavg + round(row1.t_chg, 3)), row2.tmin, row2.tmax]
-            new_row = [str(i) for i in list]
-            writer.writerow(new_row)
+    linearReg(sets)
+
+    # for row in newdata:
+    for row in X:
+        print(row)
+        print("--")
+        t_avg = dataset[dataset["date"] == year]["tavg"]

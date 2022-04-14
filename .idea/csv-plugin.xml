@@ -31,6 +31,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\datasets\RomaniaDataProcessed.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\datasets\RomaniaDataV2.csv">
           <value>
             <Attribute>
@@ -39,41 +46,6 @@
           </value>
         </entry>
         <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\datasets\RomaniaDataV3.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\server\Environment_Temperature_change_E_All_Data_NOFLAG.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\server\ProcessedData.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\server\RomaniaData.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\server\RomaniaDataProcessed.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor\server\RomaniaSplit.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
