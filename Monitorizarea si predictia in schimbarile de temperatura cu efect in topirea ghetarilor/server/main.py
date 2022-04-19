@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import csv
+import csv, os
 from matplotlib import pyplot as plt
 
 from preprocess_and_plots import *
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     # linearReg(sets)
 
     for month in range(1, 13):
-        df = read_data_per_month("../datasets/month", month)
+        df = read_data_per_month(os.path.join(os.getcwd(), "Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor", "datasets", "month"), month)
         sns.regplot(x="year", y="tavg", data=df)
         plt.title("Regression line for month " + months[month-1])
         plt.show()
