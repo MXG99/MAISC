@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 
 
@@ -37,10 +38,19 @@ def linearReg(sets: []):
     X_test_array = np.array(X_test).reshape(-1, 1)
     prediction = reg.predict(X_test_array)
 
+    rmse = np.sqrt(mean_squared_error(y_test, prediction))
+    r2 = r2_score(y_test, prediction)
+    print("Mean squared error: " + str(rmse))
+    print("Prediction correlation: " + str(r2))
+
     plt.scatter(y_test, prediction)
+    p = 0
+    for i in X_test.index.values.tolist():
+        plt.annotate(X_test.loc[i], (y_test.loc[i], prediction[p]))
+        p += 1
     plt.title("Testing the model")
-    plt.xlabel("Predicted value")
-    plt.ylabel("Real value")
+    plt.ylabel("Predicted value")
+    plt.xlabel("Real value")
     plt.show()
 
     # plt.hist(y_test - prediction)

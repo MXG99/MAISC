@@ -139,7 +139,7 @@ def plot_years(df: DataFrame):
 
 def split_dataset(filename):
     dataset = pd.read_csv(filename)
-    for i in range (1, 13):
+    for i in range(1, 13):
         newdata = DataFrame()
         if i < 10:
             newdata["year"] = dataset[dataset['date'].str.contains("-0"+str(i)+"-")]['date']
