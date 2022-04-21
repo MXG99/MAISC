@@ -1,6 +1,5 @@
 from datetime import date, datetime
-
-from pandas import DataFrame, Series
+from pandas import DataFrame, Series, concat
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,34 +7,36 @@ import pandas as pd
 
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
           'November', 'December']
-monthsd = {'January':1, 'February':2, 'March':3, 'April':4, 'May':5, 'June':6, 'July':7, 'August':8, 'September':9, 'October':10,
-          'November':11, 'December':12}
+monthsd = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8,
+           'September': 9, 'October': 10,
+           'November': 11, 'December': 12}
 
 
 def preprocess(df: DataFrame) -> DataFrame:
-    df=df.drop(columns=['Area Code','Months Code','Element Code','Unit'])
+    df = df.drop(columns=['Area Code', 'Months Code', 'Element Code', 'Unit'])
     df = df[df["Months"] != 'Dec–Jan–Feb']
     df = df[df["Months"] != 'Mar–Apr–May']
     df = df[df["Months"] != 'Jun–Jul–Aug']
     df = df[df["Months"] != 'Sep–Oct–Nov']
     df = df[df["Months"] != 'Meteorological year']
-    #df=df.loc[df.Months.isin(['January', 'February', 'March', 'April', 'May', 'June', 'July','August', 'September', 'October', 'November', 'December'])]
-    Tr_df=df.melt(id_vars=['Area','Months','Element'],var_name='Year', value_name='Temperature')
-    Tr_df['Year']=Tr_df['Year'].str[1:].astype('str')
+    # df=df.loc[df.Months.isin(['January', 'February', 'March', 'April', 'May', 'June', 'July','August', 'September', 'October', 'November', 'December'])]
+    Tr_df = df.melt(id_vars=['Area', 'Months', 'Element'], var_name='Year', value_name='Temperature')
+    Tr_df['Year'] = Tr_df['Year'].str[1:].astype('str')
     Tr_df = Tr_df.replace(monthsd)
     for i in range(Tr_df.shape[0]):
         Tr_df.loc[i, 'Date'] = datetime(int(Tr_df.loc[i, 'Year']), Tr_df.loc[i, 'Months'], 1)
-        Tr_df.loc[i, 'DateInt'] = int(Tr_df.loc[i, 'Year'])*100 + int(Tr_df.loc[i, 'Months'])
-    return Tr_df[Tr_df["Element"]=="Temperature change"]
+        Tr_df.loc[i, 'DateInt'] = int(Tr_df.loc[i, 'Year']) * 100 + int(Tr_df.loc[i, 'Months'])
+    return Tr_df[Tr_df["Element"] == "Temperature change"]
 
 
 def plot(df: DataFrame):
-    plt.figure(figsize=(15,10))
-    plt.scatter(df['Year'].loc[df.Element=='Temperature change'],df['Temperature'].loc[df.Element=='Temperature change'])
-    plt.plot(df.loc[df.Element=='Temperature change'].groupby(['Year']).mean(),'r',label='Average')
+    plt.figure(figsize=(15, 10))
+    plt.scatter(df['Year'].loc[df.Element == 'Temperature change'],
+                df['Temperature'].loc[df.Element == 'Temperature change'])
+    plt.plot(df.loc[df.Element == 'Temperature change'].groupby(['Year']).mean(), 'r', label='Average')
     plt.axhline(y=0.0, color='b', linestyle='-')
     plt.xlabel('Year')
-    plt.xticks(np.linspace(0,58,20),rotation=45)
+    plt.xticks(np.linspace(0, 58, 20), rotation=45)
     plt.ylabel('Temperature change')
     plt.legend()
     plt.title('temp change in Romania')
@@ -46,11 +47,12 @@ def plotByMonth(df: DataFrame, month):
     plt.figure(figsize=(25, 20))
     plt.axhline(y=0.0, color='b', linestyle='-')
     temp_df = df[df["Months"] == month]
-    plt.scatter(temp_df['Year'].loc[df.Element == 'Temperature change'], temp_df['Temperature'].loc[temp_df.Element == 'Temperature change'])
+    plt.scatter(temp_df['Year'].loc[df.Element == 'Temperature change'],
+                temp_df['Temperature'].loc[temp_df.Element == 'Temperature change'])
     plt.plot(temp_df.loc[temp_df.Element == 'Temperature change'].groupby(['Year']).mean(), 'r', label='Average')
     plt.tight_layout()
     plt.xlabel('Year')
-    plt.xticks(np.linspace(0,58,20),rotation=45)
+    plt.xticks(np.linspace(0, 58, 20), rotation=45)
     plt.ylabel('Temperature change')
     plt.legend()
     plt.title('temp change in Romania')
@@ -77,8 +79,8 @@ def lineOfRegression():
 
     b1 = Sxy / Sxx
     b0 = y_mean - b1 * x_mean
-    #print('slope b1 is', b1)
-    #print('intercept b0 is', b0)
+    # print('slope b1 is', b1)
+    # print('intercept b0 is', b0)
 
     y_pred = b1 * x + b0
 
@@ -96,11 +98,11 @@ def plotAllMonths(df: DataFrame):
     # plt.figure(figsize=(25, 20))
     plt.axhline(y=0.0, color='b', linestyle='-')
     for i in range(12):
-        temp_df = df[df["Months"] == i+1]
+        temp_df = df[df["Months"] == i + 1]
         plt.scatter(temp_df['Year'].loc[df.Element == 'Temperature change'],
                     temp_df['Temperature'].loc[temp_df.Element == 'Temperature change'])
     plt.plot(df.loc[df.Element == 'Temperature change'].groupby(['Year']).mean()['Temperature'],
-            label='Average')
+             label='Average')
     plt.xlabel('Year')
     plt.xticks(np.linspace(0, 58, 20), rotation=45)
     plt.ylabel('Temperature change')
@@ -113,7 +115,7 @@ def plotAllMonths(df: DataFrame):
 def plot_overtime(df: DataFrame):
     yr = [str(d).split("-")[0] for d in df['Date']]
     mth = [str(d).split("-")[1] for d in df['Date']]
-    dates = [int(yr[i])*100+int(mth[i]) for i in range(len(yr))]
+    dates = [int(yr[i]) * 100 + int(mth[i]) for i in range(len(yr))]
     plt.figure(figsize=(55, 15))
     plt.scatter(dates, np.array(df["Temperature"]))
     plt.tight_layout()
@@ -132,19 +134,19 @@ def plot_years(df: DataFrame):
     plt.xlabel('Years', fontsize=20)
     plt.ylabel('Temperature', fontsize=20)
     plt.xticks(fontsize=20, rotation=45)
-    plt.yticks(np.arange(min(df["Temperature"]), max(df["Temperature"])+1, 1.0), fontsize=20)
+    plt.yticks(np.arange(min(df["Temperature"]), max(df["Temperature"]) + 1, 1.0), fontsize=20)
     plt.tight_layout()
     plt.show()
 
 
 def split_dataset(filename):
     dataset = pd.read_csv(filename)
-    for i in range (1, 13):
+    for i in range(1, 13):
         newdata = DataFrame()
         if i < 10:
-            newdata["year"] = dataset[dataset['date'].str.contains("-0"+str(i)+"-")]['date']
+            newdata["year"] = dataset[dataset['date'].str.contains("-0" + str(i) + "-")]['date']
         else:
-            newdata["year"] = dataset[dataset['date'].str.contains("-"+str(i)+"-")]['date']
+            newdata["year"] = dataset[dataset['date'].str.contains("-" + str(i) + "-")]['date']
         t_avg_list = []
         for row in newdata["year"]:
             try:
@@ -157,6 +159,6 @@ def split_dataset(filename):
         newdata['year'] = newdata["year"].str.split("-", 1, expand=True)[0]
         newdata = newdata.reset_index()
         newdata.drop(["index"], axis=1, inplace=True)
-        newdata.to_csv("../datasets/month_" +str(i))
+        newdata.to_csv("../datasets/month_" + str(i))
 
 
