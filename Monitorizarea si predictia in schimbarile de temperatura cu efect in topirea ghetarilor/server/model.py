@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import PolynomialFeatures
 
 
 def read_data_per_month(filename, month):
@@ -57,3 +58,29 @@ def linearReg(sets: []):
     # plt.show()
 
     # lstm
+
+def polynomialReg(sets: []):
+    X_train, y_train, X_test, y_test = [a for a in sets]
+    poly = PolynomialFeatures(degree = 2)
+    X_train_array = poly.fit_transform(X_train).reshape(-1, 1)
+
+    model = LinearRegression()
+    model.fit(X_train_array, y_train)
+    prediction = model.predict(X_train_array)
+    #print(reg.intercept_)
+    #print(reg.coef_)
+
+    rmse = np.sqrt(mean_squared_error(y_test, prediction))
+    r2 = r2_score(y_test, prediction)
+    print("Mean squared error: " + str(rmse))
+    print("Prediction correlation: " + str(r2))
+
+    plt.scatter(y_test, prediction)
+    p = 0
+    for i in X_test.index.values.tolist():
+        plt.annotate(X_test.loc[i], (y_test.loc[i], prediction[p]))
+        p += 1
+    plt.title("Testing the model")
+    plt.ylabel("Predicted value")
+    plt.xlabel("Real value")
+    plt.show()

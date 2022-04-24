@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 import csv
+
+
 from matplotlib import pyplot as plt
 
 from preprocess_and_plots import *
@@ -45,5 +47,6 @@ if __name__ == '__main__':
         sets = [X_train, y_train, X_test, y_test]
 
         linearReg(sets)
+        polynomialReg(sets)
     # split_dataset("../datasets/RomaniaDataV2.csv")
 
