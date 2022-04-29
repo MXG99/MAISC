@@ -29,6 +29,7 @@ def split_data(X: pd.DataFrame, Y: pd.DataFrame):
 
 # sets: X_train, y_train, X_test, y_test, X_valid, Y_valid
 def linearReg(sets: []):
+    print("Linear Regression")
     X_train, y_train, X_test, y_test = [a for a in sets]
     reg = LinearRegression()
     X_train_array = np.array(X_train).reshape(-1, 1)
@@ -59,21 +60,39 @@ def linearReg(sets: []):
 
     # lstm
 
+
 def polynomialReg(sets: []):
+    print("Polynomial Regression")
     X_train, y_train, X_test, y_test = [a for a in sets]
     poly = PolynomialFeatures(degree = 2)
-    X_train_array = poly.fit_transform(X_train).reshape(-1, 1)
+    X_train_array = poly.fit_transform(np.array(X_train).reshape(-1, 1))
+    X_test_array = poly.fit_transform(np.array(X_test).reshape(-1, 1))
 
     model = LinearRegression()
     model.fit(X_train_array, y_train)
-    prediction = model.predict(X_train_array)
+    prediction = model.predict(X_test_array)
     #print(reg.intercept_)
     #print(reg.coef_)
 
+    print(mean_squared_error(y_test, prediction))
     rmse = np.sqrt(mean_squared_error(y_test, prediction))
     r2 = r2_score(y_test, prediction)
     print("Mean squared error: " + str(rmse))
     print("Prediction correlation: " + str(r2))
+
+    zipped_lists = zip(X_test, prediction)
+    sorted_pairs = sorted(zipped_lists)
+
+    tuples = zip(*sorted_pairs)
+    X_test_sorted, prediction_sorted = [list(tuple) for tuple in tuples]
+
+    plt.plot(X_test_sorted, prediction_sorted, "r-", linewidth=2, label="Predictions")
+    plt.plot(X_train, y_train, "b.", label='Training points')
+    plt.plot(X_test, y_test, "g.", label='Testing points')
+    plt.xlabel("X")
+    plt.ylabel("y")
+    plt.legend()
+    plt.show()
 
     plt.scatter(y_test, prediction)
     p = 0

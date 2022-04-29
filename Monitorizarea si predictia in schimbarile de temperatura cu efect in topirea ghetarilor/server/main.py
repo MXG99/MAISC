@@ -37,6 +37,7 @@ if __name__ == '__main__':
     # linearReg(sets)
 
     for month in range(1, 13):
+        print(months[month-1])
         df = read_data_per_month("../datasets/month", month)
         sns.regplot(x="year", y="tavg", data=df)
         plt.title("Regression line for month " + months[month-1])
