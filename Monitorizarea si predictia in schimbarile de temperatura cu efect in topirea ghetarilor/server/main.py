@@ -33,7 +33,7 @@ if __name__ == '__main__':
     # sets = [X_train, y_train, X_test, y_test, X_valid, y_valid]
     #
     # linearReg(sets)
-
+    month = 1
     for month in range(1, 13):
         df = read_data_per_month(os.path.join(os.getcwd(), "Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor", "datasets", "month"), month)
         sns.regplot(x="year", y="tavg", data=df)
@@ -44,6 +44,8 @@ if __name__ == '__main__':
         # X_train, y_train, X_test, y_test, X_valid, y_valid = split_data(X, Y)
         sets = [X_train, y_train, X_test, y_test]
 
-        linearReg(sets)
+        #linearReg(sets)
+        #ann(sets)
+        svm(sets)
     # split_dataset("../datasets/RomaniaDataV2.csv")
 
