@@ -1,12 +1,12 @@
 import numpy as np
 import pandas as pd
 import csv
-
-
 from matplotlib import pyplot as plt
+import os
 
-from preprocess_and_plots import *
+import seaborn as sns
 from model import *
+
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
@@ -18,11 +18,11 @@ months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
           'November', 'December']
 
 if __name__ == '__main__':
-    #dataset = pd.read_csv(filename, encoding='Windows-1252')
+    # dataset = pd.read_csv(filename, encoding='Windows-1252')
     # print(dataset.head())
     # print(dataset.shape)
 
-    #romaniaData = dataset[dataset["Area"] == "Romania"]
+    # romaniaData = dataset[dataset["Area"] == "Romania"]
     # print(romaniaData.head())
     # print(romaniaData.shape)
 
@@ -36,11 +36,10 @@ if __name__ == '__main__':
     #
     # linearReg(sets)
 
-    for month in range(1, 13):
-        print(months[month-1])
+    for month in range(1, 12):
         df = read_data_per_month("../datasets/month", month)
         sns.regplot(x="year", y="tavg", data=df)
-        plt.title("Regression line for month " + months[month-1])
+        plt.title("Regression line for month " + months[month - 1])
         plt.show()
         X, Y = split_label_outcome(df, "year", "tavg")
         X_train, y_train, X_test, y_test = split_data(X, Y)
@@ -49,5 +48,6 @@ if __name__ == '__main__':
 
         linearReg(sets)
         polynomialReg(sets)
-    # split_dataset("../datasets/RomaniaDataV2.csv")
+        lstm(month, months[month-1])
 
+    # split_dataset("../datasets/RomaniaDataV2.csv")
