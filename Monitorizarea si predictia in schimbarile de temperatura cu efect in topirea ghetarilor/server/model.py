@@ -9,6 +9,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PolynomialFeatures
 
 from utils import timeseries_to_supervised, scale, fit_lstm, forecast_lstm, invert_scale, inverse_difference, difference
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.cluster import mean_shift
+from sklearn.neural_network import MLPRegressor
+from sklearn.svm import SVR
 
 
 def read_data_per_month(filename, month):
@@ -156,3 +161,43 @@ def lstm(month, month_name):
     plt.plot(predictions)
     plt.grid()
     plt.show()
+
+
+def ann(sets: []):
+    X_train, y_train, X_test, y_test = [a for a in sets]
+    reg = MLPRegressor(hidden_layer_sizes=(32,16,16, 8), max_iter=500, learning_rate_init=0.0001, )
+    X_train_array = np.array(X_train).reshape(-1, 1)
+    reg.fit(X_train_array, y_train)
+
+    X_test_array = np.array(X_test).reshape(-1, 1)
+    prediction = reg.predict(X_test_array)
+
+    rmse_train = np.sqrt(mean_squared_error(y_test, prediction))
+
+    print(rmse_train)
+
+    plt.scatter(y_test, prediction)
+    plt.title("Testing the model")
+    plt.xlabel("Predicted value")
+    plt.ylabel("Real value")
+    plt.show()
+
+def svm(sets: []):
+    X_train, y_train, X_test, y_test = [a for a in sets]
+    reg = SVR(kernel="rbf", C=100, gamma="auto")
+    X_train_array = np.array(X_train).reshape(-1, 1)
+    reg.fit(X_train_array, y_train)
+
+    X_test_array = np.array(X_test).reshape(-1, 1)
+    prediction = reg.predict(X_test_array)
+
+    rmse_train = np.sqrt(mean_squared_error(y_test, prediction))
+
+    print(rmse_train)
+
+    plt.scatter(y_test, prediction)
+    plt.title("Testing the model")
+    plt.xlabel("Predicted value")
+    plt.ylabel("Real value")
+    plt.show()
+

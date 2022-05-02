@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import csv
+import csv, os
 from matplotlib import pyplot as plt
 import os
 
@@ -18,26 +18,10 @@ months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
           'November', 'December']
 
 if __name__ == '__main__':
-    # dataset = pd.read_csv(filename, encoding='Windows-1252')
-    # print(dataset.head())
-    # print(dataset.shape)
 
-    # romaniaData = dataset[dataset["Area"] == "Romania"]
-    # print(romaniaData.head())
-    # print(romaniaData.shape)
-
-    # romaniaDataset = pd.read_csv("../datasets/RomaniaDataV2.csv")
-    # X = pd.DataFrame()
-    # X = romaniaDataset["date"].str.split("-", 1, expand=True)[0]
-    # Y = romaniaDataset["tavg"]
-    # X_train, y_train, X_test, y_test, X_valid, y_valid = split_data(X, Y)
-    #
-    # sets = [X_train, y_train, X_test, y_test, X_valid, y_valid]
-    #
-    # linearReg(sets)
-
-    for month in range(1, 12):
-        df = read_data_per_month("../datasets/month", month)
+    for month in range(1, 13):
+#       df = read_data_per_month("../datasets/month", month)
+        df = read_data_per_month(os.path.join(os.getcwd(), "Monitorizarea si predictia in schimbarile de temperatura cu efect in topirea ghetarilor", "datasets", "month"), month)
         sns.regplot(x="year", y="tavg", data=df)
         plt.title("Regression line for month " + months[month - 1])
         plt.show()
@@ -49,5 +33,6 @@ if __name__ == '__main__':
         linearReg(sets)
         polynomialReg(sets)
         lstm(month, months[month-1])
-
-    # split_dataset("../datasets/RomaniaDataV2.csv")
+        #linearReg(sets)
+        #ann(sets)
+        svm(sets)
